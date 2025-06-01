@@ -1,24 +1,31 @@
 <script setup lang="ts">
-    import { onMounted, ref } from 'vue';
-    import AuthService from '@/composables/AuthService';
+import AuthService from '@/composables/AuthService';
+import axiosInstance from '@/src/axios/axios';
 
-    const user = ref();
+const user = async () => {
+    try{
+        const response = await axiosInstance.get('/user');
+        console.log(response.data)
+    }catch(error){
+        console.log(error)
+    }
+}
+const logout = async () => {
+    try{
+        const responce = await axiosInstance.get('/logout');
+        console.log(responce.data)
+    }catch(error){
+        console.log(error)
+    }
+}
 
-    onMounted(async () => {
-        try {
-            const response = await AuthService.getUser();
-            user.value = response.data;
-        } catch (error: any) {
-            console.error('Not authenticated');
-        }
-    });
 </script>
 <template>
     <div class="px-72">
         <h1 class="mt-28 text-4xl font-bold">Личный кабинет</h1>
         <div class="flex w-1/3 justify-between"> 
             <div class="flex flex-col mt-16">
-                <button>Профиль {{ user.email }}</button>
+                <button>Профиль</button>
                 <button>Мои заказы</button>
             </div>
             <div class="mt-16">

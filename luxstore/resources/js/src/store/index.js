@@ -1,6 +1,6 @@
-import { createStore } from 'pinia';
+import { defineStore } from 'pinia';
 
-const store = createStore({
+const store = defineStore({
     state: {
         user: {
             token: null,
