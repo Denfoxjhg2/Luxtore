@@ -1,11 +1,22 @@
 <script setup lang="ts">
-import AuthService from '@/composables/AuthService';
 import axiosInstance from '@/src/axios/axios';
+import {ref, onMounted} from 'vue';
 
-const user = async () => {
+
+const AuthService = ref({
+    name: '',
+    email: '',
+});
+
+
+const getUser = async () => {
     try{
-        const response = await axiosInstance.get('/user');
-        console.log(response.data)
+        await axiosInstance.get('/sanctum/csrf-cookie',{
+            baseURL: 'http://127.0.0.1:8000',
+        });
+        const responce = await axiosInstance.get('/user');
+        AuthService.value = responce.data;
+        console.log(responce.data);
     }catch(error){
         console.log(error)
     }
@@ -18,7 +29,7 @@ const logout = async () => {
         console.log(error)
     }
 }
-
+onMounted(() => {getUser()});
 </script>
 <template>
     <div class="px-72">
@@ -31,7 +42,7 @@ const logout = async () => {
             <div class="mt-16">
                 <h2>Профиль</h2>
                 <div>
-                    <label for="name">Имя:</label>
+                    <label for="name">Имя: {{ AuthService.name }}</label>
                     <input type="text" id="name">
                 </div>
                 <div>
@@ -43,11 +54,11 @@ const logout = async () => {
                     <input type="text" id="tel">
                 </div>
                 <div>
-                    <label for="email">E-mail:</label>
+                    <label for="email">E-mail: {{ AuthService.email }}</label>
                     <input type="text" id="email">
                 </div>
                 <div>
-                    <button @click="AuthService.logout()">Выход</button>
+                    <button @click="logout">Выход</button>
                     <button>Сохранить изменения</button>
                 </div>
             </div>

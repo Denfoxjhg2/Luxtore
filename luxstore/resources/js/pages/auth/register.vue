@@ -3,7 +3,21 @@ import { useRouter } from 'vue-router';
 import axiosInstance from '@/src/axios/axios';
 import { reactive } from 'vue';
 import { AxiosError } from 'axios';
+import {toast} from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
+const errorToast = () => {
+    toast.error('Ошибка регистрации!', {
+        autoClose: 2000,
+        position: toast.POSITION.BOTTOM_CENTER,
+    })
+}
+const successToast = () => {
+    toast.success('Вы успешно зарегистрировались', {
+        autoClose: 2000,
+        position: toast.POSITION.BOTTOM_CENTER,
+    })
+}
 interface RegisterForm {
   name: string;
   email: string;
@@ -30,9 +44,11 @@ const register = async (payload: RegisterForm) => {
   });
   try {
     await axiosInstance.post('/register', payload);
-    router.push('/login');
+    successToast();
+    setTimeout(() => {router.push('/login')}, 2000);
   } catch (e) {
     if (e instanceof AxiosError && e.response?.status === 422) {
+      errorToast();
       errorMsg.email = e.response.data.errors.email;
       errorMsg.name = e.response.data.errors.name;
       errorMsg.password = e.response.data.errors.password;
