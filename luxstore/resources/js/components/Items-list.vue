@@ -7,7 +7,22 @@
         <h2 class="text-3xl font-bold my-8">Премиум и качество в одном каталоге</h2>
         <div class="grid grid-cols-4">
             <Card 
-            image-url="@/assets/pics/phone.png" 
+            image-url="/assets/images/phone.png" 
+            title="iPhone 14"
+            price="$1500"
+            />
+            <Card 
+            image-url="/assets/images/phone.png" 
+            title="iPhone 14"
+            price="$1500"
+            />
+            <Card 
+            image-url="/assets/images/phone.png" 
+            title="iPhone 14"
+            price="$1500"
+            />
+            <Card 
+            image-url="/assets/images/phone.png" 
             title="iPhone 14"
             price="$1500"
             />

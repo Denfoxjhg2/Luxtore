@@ -2,8 +2,7 @@
 import axiosInstance from '@/src/axios/axios';
 import {ref, onMounted} from 'vue';
 
-
-const AuthService = ref({
+const user = ref({
     name: '',
     email: '',
 });
@@ -11,25 +10,26 @@ const AuthService = ref({
 
 const getUser = async () => {
     try{
-        await axiosInstance.get('/sanctum/csrf-cookie',{
-            baseURL: 'http://127.0.0.1:8000',
-        });
+        const token = localStorage.getItem('token');
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         const responce = await axiosInstance.get('/user');
-        AuthService.value = responce.data;
-        console.log(responce.data);
+        user.value = responce.data;
     }catch(error){
         console.log(error)
     }
 }
-const logout = async () => {
-    try{
-        const responce = await axiosInstance.get('/logout');
-        console.log(responce.data)
-    }catch(error){
-        console.log(error)
-    }
-}
-onMounted(() => {getUser()});
+// const logout = async () => {
+//     try{
+//         const responce = await axiosInstance.get('/logout');
+//         console.log(responce.data)
+//     }catch(error){
+//         console.log(error)
+//     }
+// }
+
+onMounted(() => {
+    getUser();
+})
 </script>
 <template>
     <div class="px-72">
@@ -40,10 +40,10 @@ onMounted(() => {getUser()});
                 <button>Мои заказы</button>
             </div>
             <div class="mt-16">
-                <h2>Профиль</h2>
+                <h2>Профиль {{ user?.name }}</h2>
                 <div>
-                    <label for="name">Имя: {{ AuthService.name }}</label>
-                    <input type="text" id="name">
+                    <label for="name">Имя:</label>
+                    <input type="text" id="name" >
                 </div>
                 <div>
                     <label for="surname">Фамилия:</label>
@@ -54,8 +54,8 @@ onMounted(() => {getUser()});
                     <input type="text" id="tel">
                 </div>
                 <div>
-                    <label for="email">E-mail: {{ AuthService.email }}</label>
-                    <input type="text" id="email">
+                    <label for="email">E-mail: {{ user?.email }}</label>
+                    <input type="text" id="email" >
                 </div>
                 <div>
                     <button @click="logout">Выход</button>

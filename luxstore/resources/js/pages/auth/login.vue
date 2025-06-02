@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axiosInstance from '@/src/axios/axios';
 import { AxiosError } from 'axios';
@@ -20,26 +20,32 @@ const successToast = () => {
 }
 
 const router = useRouter();
-interface LoginForm {
-  email: string;
-  password: string;
-}
-const form = reactive<LoginForm>({
+
+const form = ref({
     email: '',
-    password: '',
+    password: ''
 });
 const errorMsg = reactive({
   email: [],
   password: [],
 })
 
-const login = async (payload: LoginForm) => {
+const login = async () => {
   await axiosInstance.get('/sanctum/csrf-cookie', {
     baseURL: 'http://127.0.0.1:8000',
   });
   try {
-    const response = await axiosInstance.post('/login', payload);
-    console.log(response.data);
+    const response = await axiosInstance.post('/login', {
+      email: form.value.email,
+      password: form.value.password
+    },{
+      withCredentials: true,
+    withXSRFToken: true
+    });
+    const token = response.data.token;
+    localStorage.setItem('token', token);
+    axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    console.log('token', token);
     successToast();
     setTimeout(() => {router.push('/profile')}, 2000);
   } catch (e) {
@@ -59,7 +65,7 @@ const login = async (payload: LoginForm) => {
       <img src="../../assets/icons/Luxtore.svg" alt="luxtore" class="w-1/2 mx-auto my-8">
       <h1 class="mx-auto font-medium text-3xl mb-12">Вход в аккаунт</h1>
 
-      <form @submit.prevent="login(form)">
+      <form @submit.prevent="login()">
         <div class="flex flex-col">
             <input type="email" v-model="form.email" class="bg-[#0000000d] p-4 text-xl rounded-xl mb-4 outline-none" placeholder="E-mail" required>
              <template v-if="errorMsg.email?.length">
