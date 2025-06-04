@@ -1,6 +1,6 @@
 <script setup lang="ts">
-
+    import Drawer from '@/components/Drawer.vue';
 </script>
 <template>
-    <div>Cart</div>
+    <Drawer />
 </template>

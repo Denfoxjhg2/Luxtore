@@ -61,8 +61,8 @@ const login = async () => {
 <template>
   <div class="fixed inset-0 bg-[#0000004d] flex justify-center items-center">
     <div class="bg-white shadow-2xl overflow-x-auto flex flex-col w-1/5 h-auto p-8">
-      <button class="w-8 flex self-end" @click="$router.back()"><img src="../../assets/icons/cancel.svg" alt="cancel"></button>
-      <img src="../../assets/icons/Luxtore.svg" alt="luxtore" class="w-1/2 mx-auto my-8">
+      <button class="w-8 flex self-end" @click="$router.back()"><img src="/assets/icons/cancel.svg" alt="cancel"></button>
+      <img src="/assets/icons/Luxtore.svg" alt="luxtore" class="w-1/2 mx-auto my-8">
       <h1 class="mx-auto font-medium text-3xl mb-12">Вход в аккаунт</h1>
 
       <form @submit.prevent="login()">
@@ -79,7 +79,7 @@ const login = async () => {
             <router-link to="/register" class="mx-auto mb-6 text-xl text-[#8295DF] transition delay-150 duration-300 ease-in-out hover:text-[#000080]">Регистрация</router-link>
         </div>
       </form>
-      <img src="../../assets/pics/iphone-single.png" alt="iphone" class="relative mx-auto w-40 -mb-8">
+      <img src="/assets/images/iphone-single.png" alt="iphone" class="relative mx-auto w-40 -mb-8">
     </div>
   </div>
 </template>

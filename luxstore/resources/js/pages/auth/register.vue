@@ -61,8 +61,8 @@ const register = async (payload: RegisterForm) => {
 <template>
   <div class="fixed inset-0 bg-[#0000004d] flex justify-center items-center">
     <div class="bg-white shadow-2xl overflow-x-auto flex flex-col w-1/5 h-auto p-8">
-      <button class="w-8 flex self-end" @click="$router.back()"><img src="../../assets/icons/cancel.svg" alt="cancel"></button>
-      <img src="../../assets/icons/Luxtore.svg" alt="luxtore" class="w-1/2 mx-auto my-8">
+      <button class="w-8 flex self-end" @click="$router.back()"><img src="/assets/icons/cancel.svg" alt="cancel"></button>
+      <img src="/assets/icons/Luxtore.svg" alt="luxtore" class="w-1/2 mx-auto my-8">
       <h1 class="mx-auto font-medium text-3xl mb-12">Регистрация</h1>
 
       <form @submit.prevent="register(form)">
@@ -84,10 +84,10 @@ const register = async (payload: RegisterForm) => {
             <router-link to="/login" class="mx-auto mb-6 text-xl text-[#8295DF] transition delay-150 duration-300 ease-in-out hover:text-[#000080]">Вход</router-link>
         </div>
       </form>
-      <div class="flex mx-auto items-end justify-around -mb-8">
-        <img src="../../assets/pics/iphone-single.png" alt="iphone" class="inline-block w-24 h-32 blur-[2px]">
-        <img src="../../assets/pics/iphone-single.png" alt="iphone" class="inline-block w-32">
-        <img src="../../assets/pics/iphone-single.png" alt="iphone" class="inline-block w-24 h-32 blur-[2px]">
+      <div class="flex mx-auto items-end gap-2 justify-center -mb-8">
+        <img src="/assets/images/iphone-single.png" alt="iphone" class="inline-block w-24 h-32 blur-[2px]">
+        <img src="/assets/images/iphone-single.png" alt="iphone" class="inline-block w-32">
+        <img src="/assets/images/iphone-single.png" alt="iphone" class="inline-block w-24 h-32 blur-[2px]">
       </div>
     </div>
   </div>
