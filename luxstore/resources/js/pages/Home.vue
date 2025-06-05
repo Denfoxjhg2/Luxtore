@@ -18,8 +18,8 @@
             <img src="/assets/company_ico/noth_black.svg" alt="nothing">
         </div>
     </div>
-    <div>
-        <h1>Популярное только для вас.</h1>
+    <div class="w-full h-16 flex justify-center mt-20">
+        <h1 class="text-3xl font-bold">Популярное только для вас.</h1>
         
     </div>
 </template>

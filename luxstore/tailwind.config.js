@@ -12,7 +12,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Instrument Sans', ...defaultTheme.fontFamily.sans],
+                sans: ['SF Pro', 'sans-serif'],
             },
             borderRadius: {
                 lg: 'var(--radius)',
