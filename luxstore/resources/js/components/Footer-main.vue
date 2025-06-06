@@ -4,15 +4,15 @@
     <footer class="mt-52 h-96 w-full bg-black">
         <div class="flex flex-col px-72">
             <div class="mt-16 flex w-full justify-between">
-                <div class="flex flex-col gap-3">
+                <div onclick="window.scrollTo(0, 0)" class="flex flex-col gap-3">
                     <router-link to="/about-us" class="text-xl text-slate-200 transition hover:text-[#8295DF]">О компании</router-link>
                     <div class="flex flex-col">
                         <router-link to="/catalog" class="text-gray-500 transition hover:text-slate-200">Акции</router-link>
                         <router-link to="/contacts" class="text-gray-500 transition hover:text-slate-200">Контакты</router-link>
-                        <router-link to="/catalog" class="text-gray-500 transition hover:text-slate-200">Обратная связь</router-link>
+                        <router-link to="/contacts" class="text-gray-500 transition hover:text-slate-200">Обратная связь</router-link>
                     </div>
                 </div>
-                <div class="flex flex-col gap-3">
+                <div onclick="window.scrollTo(0, 0)" class="flex flex-col gap-3">
                     <router-link to="/catalog" class="text-xl text-slate-200 transition hover:text-[#8295DF]">Каталог</router-link>
                     <div class="flex flex-col">
                         <router-link to="/catalog" class="text-gray-500 transition hover:text-slate-200">Apple</router-link>
