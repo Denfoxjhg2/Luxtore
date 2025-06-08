@@ -13,13 +13,38 @@ const routes = [
     { name: 'Homepage', path: '/', component: Home },
     { name: 'Login', path: '/login', component: Login },
     { name: 'Register', path: '/register', component: Register },
-    { name: 'Profile', path: '/profile', component: Profile, meta: { requiresAuth: true } },
+    {
+        name: 'Profile',
+        path: '/profile',
+        component: Profile,
+        beforeEnter: (to, from, next) => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                next();
+            } else {
+                next({ name: 'Login' });
+            }
+        },
+    },
     { name: 'Cart', path: '/cart', component: Cart },
     { name: 'Catalog', path: '/catalog', component: Catalog },
     { name: 'About', path: '/about-us', component: About },
     { name: 'Contacts', path: '/contacts', component: Contacts },
     { name: 'Item', path: '/item', component: Item },
     { name: 'Order', path: '/order', component: Order },
+    {
+        name: 'Protected',
+        path: '/protected',
+        component: Profile,
+        beforeEnter: (to, from, next) => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                next({ name: 'Profile' });
+            } else {
+                next({ name: 'Login' });
+            }
+        },
+    },
 ];
 
 export default routes;

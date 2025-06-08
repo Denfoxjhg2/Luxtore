@@ -19,9 +19,6 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            if (!$user->isAdmin()) {
-                return response()->json(['message' => 'You are not an admin'], 401);
-            }
             $token = $user->createToken('main')->plainTextToken;
             return response([
                 // 'user' => new UserResource($user),

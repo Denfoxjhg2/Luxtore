@@ -29,7 +29,11 @@ class User extends Authenticatable
         'email',
         'login',
         'password',
-        'is_admin'
+        'is_admin',
+        'phone',
+        'address',
+        'first_name',
+        'last_name',
     ];
 
     /**

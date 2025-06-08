@@ -13,7 +13,7 @@
             <router-link to="/cart" class="cursor-pointer opacity-50 transition hover:opacity-100">
                 <img src="/assets/icons/shop_cart.svg" alt="cart" />
             </router-link>
-            <router-link to="/login" class="cursor-pointer opacity-50 transition hover:opacity-100">
+            <router-link to="/protected" class="cursor-pointer opacity-50 transition hover:opacity-100">
                 <img src="/assets/icons/profile.svg" alt="account" />
             </router-link>
         </ul>

@@ -1,65 +1,148 @@
 <script setup lang="ts">
 import axiosInstance from '@/src/axios/axios';
-import {ref, onMounted} from 'vue';
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
+
+const successquit = () => {
+    toast.success('Вы успешно вышли из аккаунта!', {
+        autoClose: 2000,
+        position: toast.POSITION.BOTTOM_CENTER,
+    });
+};
+
+const router = useRouter();
 
 const user = ref({
-    name: '',
+    first_name: '',
+    last_name: '',
     email: '',
+    phone: '',
+    address: '',
 });
 
-
 const getUser = async () => {
-    try{
+    try {
         const token = localStorage.getItem('token');
         axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         const responce = await axiosInstance.get('/user');
         user.value = responce.data;
-    }catch(error){
-        console.log(error)
+    } catch (error) {
+        if (error) {
+            router.push('/');
+        }
     }
-}
-// const logout = async () => {
-//     try{
-//         const responce = await axiosInstance.get('/logout');
-//         console.log(responce.data)
-//     }catch(error){
-//         console.log(error)
-//     }
-// }
+};
+const logout = async () => {
+    try {
+        const responce = await axiosInstance.get('/logout');
+        localStorage.removeItem('token');
+        console.log(responce.data);
+        successquit();
+        setTimeout(() => {
+            router.push('/');
+        }, 2000);
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const updateUser = async () => {
+    try {
+        const token = localStorage.getItem('token');
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        await axiosInstance.post('/update-user', user.value);
+        toast.success('Вы успешно обновили данные!', {
+            autoClose: 2000,
+            position: toast.POSITION.BOTTOM_CENTER,
+        });
+    } catch (error) {
+        console.log(error);
+    }
+};
 
 onMounted(() => {
     getUser();
-})
+});
 </script>
 <template>
     <div class="px-72">
         <h1 class="mt-28 text-4xl font-bold">Личный кабинет</h1>
-        <div class="flex w-1/3 justify-between"> 
-            <div class="flex flex-col mt-16">
-                <button>Профиль</button>
-                <button>Мои заказы</button>
+        <div class="flex w-4/5 gap-28 pt-16">
+            <div class="flex h-full w-1/3 flex-col items-start gap-4 rounded-xl border border-slate-300 bg-white p-4 text-lg">
+                <button class="transition hover:text-[#8295DF] focus:border-b-2 focus:border-[#8295DF]">Профиль</button>
+                <button class="transition hover:text-[#8295DF] focus:border-b-2 focus:border-[#8295DF]">Мои заказы</button>
             </div>
-            <div class="mt-16">
-                <h2>Профиль {{ user?.name }}</h2>
-                <div>
-                    <label for="name">Имя:</label>
-                    <input type="text" id="name" >
-                </div>
-                <div>
-                    <label for="surname">Фамилия:</label>
-                    <input type="text" id="surname">
-                </div>
-                <div>
-                    <label for="tel">Мобильный Телефон:</label>
-                    <input type="text" id="tel">
-                </div>
-                <div>
-                    <label for="email">E-mail: {{ user?.email }}</label>
-                    <input type="text" id="email" >
-                </div>
-                <div>
-                    <button @click="logout">Выход</button>
-                    <button>Сохранить изменения</button>
+            <div class="w-full">
+                <h2 class="pb-4 text-2xl">Профиль</h2>
+                <div class="flex flex-col gap-4">
+                    <div class="flex">
+                        <label class="text-xl" for="name">Имя:</label>
+                        <div class="flex-1"></div>
+                        <input
+                            placeholder="Имя"
+                            class="rounded-xl border border-slate-300 bg-[#EEEEEE] p-2 pr-28"
+                            type="text"
+                            id="name"
+                            v-model="user.first_name"
+                        />
+                    </div>
+                    <div class="flex">
+                        <label class="text-xl" for="surname">Фамилия:</label>
+                        <div class="flex-1"></div>
+                        <input
+                            placeholder="Фамилия"
+                            class="rounded-xl border border-slate-300 bg-[#EEEEEE] p-2 pr-28"
+                            type="text"
+                            id="surname"
+                            v-model="user.last_name"
+                        />
+                    </div>
+                    <div class="flex">
+                        <label class="text-xl" for="tel">Мобильный Телефон:</label>
+                        <div class="flex-1"></div>
+                        <input
+                            placeholder="+7(***)***-**-**"
+                            class="rounded-xl border border-slate-300 bg-[#EEEEEE] p-2 pr-28"
+                            type="tel"
+                            id="tel"
+                            pattern="+7[0-9]{3}[0-9]{3}[0-9]{2}[0-9]{2}"
+                            v-model="user.phone"
+                        />
+                    </div>
+                    <div class="flex">
+                        <label class="text-xl" for="email">E-mail:</label>
+                        <div class="flex-1"></div>
+                        <input
+                            placeholder="E-mail"
+                            class="rounded-xl border border-slate-300 bg-[#EEEEEE] p-2 pr-28"
+                            type="email"
+                            id="email"
+                            v-model="user.email"
+                        />
+                    </div>
+                    <div class="flex">
+                        <label class="text-xl" for="adress">Адрес доставки:</label>
+                        <div class="flex-1"></div>
+                        <input
+                            placeholder="Город, улица, дом, квартира"
+                            class="rounded-xl border border-slate-300 bg-[#EEEEEE] p-2 pr-28"
+                            type="text"
+                            id="adress"
+                            v-model="user.address"
+                        />
+                    </div>
+                    <div class="flex">
+                        <button
+                            @click="logout"
+                            class="rounded-xl bg-[#EEEEEE] p-2 px-8 transition hover:bg-[#8295DF] hover:text-white active:bg-[#6878b6] active:text-white"
+                        >
+                            Выход
+                        </button>
+                        <div class="flex-1"></div>
+                        <button class="rounded-xl bg-[#8295DF] p-2 px-20 text-white" @click="updateUser">Сохранить изменения</button>
+                    </div>
                 </div>
             </div>
         </div>

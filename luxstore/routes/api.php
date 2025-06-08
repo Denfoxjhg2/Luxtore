@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\UpdateUserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
@@ -14,4 +15,5 @@ Route::middleware(['auth:sanctum'])
             return $request->user();
         });
         Route::post('/logout', action: [LoginController::class, 'logout']);
+        Route::post('/update-user', [UpdateUserController::class, 'updateUser']);
     });
