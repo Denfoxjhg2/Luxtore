@@ -15,7 +15,7 @@ const mailtoast = () => {
 };
 </script>
 <template>
-    <Transition appear>
+    <div>
         <div class="m-auto flex flex-col items-center px-72">
             <h1 class="pb-16 pt-80 text-5xl font-bold">Контакты</h1>
             <div
@@ -40,23 +40,23 @@ const mailtoast = () => {
             </div>
             <h1 class="pt-96 text-5xl font-bold">Наши соцсети</h1>
         </div>
-    </Transition>
-    <div class="flex w-full justify-between pt-40">
-        <div class="flex items-center justify-center">
-            <img src="/assets/images/iPhone16ProBL.png" alt="iphone" class="h-3/5 blur-[3px]" />
-            <img src="/assets/images/iPhone16ProWH.png" alt="iphone" class="" />
-        </div>
-        <div class="flex gap-20">
-            <a class="flex items-center justify-center transition hover:-translate-y-1" href="https://t.me/bruhmomento77"
-                ><img class="cursor-pointer" src="/assets/icons/tgblack.svg" alt="telegram"
-            /></a>
-            <a class="flex items-center justify-center transition hover:-translate-y-1" href="https://vk.com/bruhmoment44"
-                ><img src="/assets/icons/vkblack.svg" alt="vk"
-            /></a>
-        </div>
-        <div class="flex items-center justify-center">
-            <img src="/assets/images/iPhone16ProWH.png" alt="iphone" />
-            <img src="/assets/images/iPhone16ProBL.png" alt="iphone" class="h-3/5 blur-[3px]" />
+        <div class="flex w-full justify-between pt-40">
+            <div class="flex items-center justify-center">
+                <img src="/assets/images/iPhone16ProBL.png" alt="iphone" class="h-3/5 blur-[3px]" />
+                <img src="/assets/images/iPhone16ProWH.png" alt="iphone" class="" />
+            </div>
+            <div class="flex gap-20">
+                <a class="flex items-center justify-center transition hover:-translate-y-1" href="https://t.me/bruhmomento77"
+                    ><img class="cursor-pointer" src="/assets/icons/tgblack.svg" alt="telegram"
+                /></a>
+                <a class="flex items-center justify-center transition hover:-translate-y-1" href="https://vk.com/bruhmoment44"
+                    ><img src="/assets/icons/vkblack.svg" alt="vk"
+                /></a>
+            </div>
+            <div class="flex items-center justify-center">
+                <img src="/assets/images/iPhone16ProWH.png" alt="iphone" />
+                <img src="/assets/images/iPhone16ProBL.png" alt="iphone" class="h-3/5 blur-[3px]" />
+            </div>
         </div>
     </div>
 </template>
