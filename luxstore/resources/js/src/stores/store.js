@@ -2,52 +2,6 @@ import axiosInstance from '@/src/axios/axios';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
-// export const useStore = defineStore({
-//     state: {
-//         products: [],
-//         cart: [],
-//         order: {},
-//     },
-//     actions: {
-//         getProducts({ commit }) {
-//             axiosInstance
-//                 .get('/products')
-//                 .then((response) => {
-//                     commit('updateProducts', response.data);
-//                 })
-//                 .catch((error) => {
-//                     console.error(error);
-//                 });
-//         },
-//         clearCart({ commit }) {
-//             commit('updateCart', []);
-//         },
-//     },
-//     getters: {},
-//     mutations: {
-//         updateProducts(state, products) {
-//             state.products = products;
-//         },
-//         addToCart(state, product) {
-//             let productInCartIndex = state.cart.findIndex((item) => item.slug === product.slug);
-//             if (productInCartIndex !== -1) {
-//                 state.cart[productInCartIndex].quantity++;
-//                 return;
-//             }
-//             product.quantity = 1;
-//             state.cart.push(product);
-//         },
-//         removeFromCart(state, index) {
-//             state.cart.splice(index, 1);
-//         },
-//         updateOrder(state, order) {
-//             state.order = order;
-//         },
-//         updateCart(state, cart) {
-//             state.cart = cart;
-//         },
-//     },
-// });
 export const useStore = defineStore('main', () => {
     const products = ref([]);
     const cart = ref([]);
@@ -77,6 +31,7 @@ export const useStore = defineStore('main', () => {
             return;
         }
         cart.value.push({ ...product, quantity: 1 });
+        console.log('added to cart');
     };
 
     const removeFromCart = (index) => {

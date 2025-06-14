@@ -45,7 +45,9 @@ const product = computed(() => {
                 </div>
                 <div class="h-0.5 w-full bg-slate-200"></div>
                 <h1 class="text-3xl font-bold">{{ product.price }}</h1>
-                <button class="rounded-xl bg-[#8295DF] p-4 px-20 text-xl font-bold text-white">Добавить в корзину</button>
+                <button class="rounded-xl bg-[#8295DF] p-4 px-20 text-xl font-bold text-white" @click="store.addToCart(product)">
+                    Добавить в корзину
+                </button>
             </div>
         </div>
         <div class="flex w-full gap-16 rounded-2xl bg-slate-200 p-6 px-10">
