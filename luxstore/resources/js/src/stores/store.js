@@ -49,12 +49,10 @@ import { ref } from 'vue';
 //     },
 // });
 export const useStore = defineStore('main', () => {
-    // State
     const products = ref([]);
     const cart = ref([]);
     const order = ref({});
 
-    // Actions (теперь просто функции)
     const getProducts = async () => {
         try {
             const response = await axiosInstance.get('/products');
@@ -68,7 +66,6 @@ export const useStore = defineStore('main', () => {
         updateCart([]);
     };
 
-    // Mutations теперь просто функции для изменения состояния
     const updateProducts = (newProducts) => {
         products.value = newProducts;
     };
@@ -95,16 +92,13 @@ export const useStore = defineStore('main', () => {
     };
 
     return {
-        // State
         products,
         cart,
         order,
 
-        // Actions
         getProducts,
         clearCart,
 
-        // Mutations
         updateProducts,
         addToCart,
         removeFromCart,

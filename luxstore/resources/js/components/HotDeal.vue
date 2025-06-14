@@ -1,8 +1,14 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
+import { useStore } from '../src/stores/store.js';
 import Card from './card.vue';
 const observerTarget = ref<HTMLElement | null>(null);
 const isVisible = ref(false);
+
+const store = useStore();
+const summproducts = computed(() => {
+    return store.products;
+});
 
 onMounted(() => {
     if (!observerTarget.value) return;
@@ -30,11 +36,14 @@ onMounted(() => {
             <h1 v-if="isVisible" class="mb-32 text-5xl font-bold">Популярное только для вас.</h1>
             <div v-if="isVisible" class="w-full">
                 <div class="flex items-center justify-center">
-                    <Card image-url="/assets/images/phone.png" title="iPhone 14" price="$1500" />
-                    <Card image-url="/assets/images/phone.png" title="iPhone 14" price="$1500" />
-                    <Card image-url="/assets/images/phone.png" title="iPhone 14" price="$1500" />
-                    <Card image-url="/assets/images/phone.png" title="iPhone 14" price="$1500" />
-                    <Card image-url="/assets/images/phone.png" title="iPhone 14" price="$1500" />
+                    <Card
+                        v-for="product in summproducts"
+                        :key="product.id"
+                        :title="product.name"
+                        :imageUrl="product.image_url"
+                        :price="product.price"
+                        :slug="product.slug"
+                    />
                 </div>
             </div>
         </TransitionGroup>
