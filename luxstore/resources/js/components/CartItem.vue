@@ -1,13 +1,31 @@
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useStore } from '../src/stores/store.js';
+defineProps({
+    imageUrl: String,
+    title: String,
+    price: String,
+    quantity: Number,
+    index: Number,
+});
+const cart = computed(() => {
+    return store.cart;
+});
+const store = useStore();
+</script>
 <template>
-    <div class="flex items-center p-4 gap-4 border border-slate-200 rounded-xl">
-        <img class="w-16" src="/assets/images/phone.png" alt="phone">
+    <div class="flex items-center gap-4 rounded-xl border border-slate-200 p-4">
+        <img class="w-16" :src="imageUrl" alt="phone" />
 
         <div class="flex flex-col">
-            <p>Iphone 16 pro max super ultra</p>
+            <p>{{ title }}</p>
 
-            <div class="flex justify-between mt-2">
-                <b>80.000 руб.</b>
-                <img src="/assets/icons/trashbin.svg" alt="close" class="opacity-40 transition cursor-pointer hover:opacity-100">
+            <div class="mt-2 flex justify-between gap-3">
+                <b>{{ price }}</b>
+                <p>Кол-во: {{ quantity }}</p>
+                <button @click="store.removeFromCart(index)">
+                    <img src="/assets/icons/trashbin.svg" alt="close" class="cursor-pointer opacity-40 transition hover:opacity-100" />
+                </button>
             </div>
         </div>
     </div>

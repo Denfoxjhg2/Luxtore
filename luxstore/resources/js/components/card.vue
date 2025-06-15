@@ -2,7 +2,7 @@
 defineProps({
     imageUrl: String,
     title: String,
-    price: String,
+    price: Number,
     slug: String,
 });
 </script>
@@ -14,6 +14,6 @@ defineProps({
     >
         <img :src="imageUrl" alt="phone" class="w-[160px]" />
         <p class="text-l mt-4 text-center">{{ title }}</p>
-        <span class="mt-2 text-xl font-medium">{{ price }}</span>
+        <span class="mt-2 text-xl font-medium">{{ price }}₽</span>
     </router-link>
 </template>

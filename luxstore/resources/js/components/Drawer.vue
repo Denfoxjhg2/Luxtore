@@ -1,5 +1,22 @@
 <script setup lang="ts">
 import CartItemList from '@/components/CartItemList.vue';
+import { computed } from 'vue';
+import { useStore } from '../src/stores/store.js';
+
+const store = useStore();
+
+const cart = computed(() => {
+    return store.cart;
+});
+const cartTotal = computed(() => {
+    let price = store.cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    return price;
+});
+const deliveryPrice = computed(() => {
+    const price = store.cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    const delivery = price / 100;
+    return delivery;
+});
 </script>
 <template>
     <div>
@@ -22,18 +39,17 @@ import CartItemList from '@/components/CartItemList.vue';
                     <div class="flex gap-2">
                         <span>Итого:</span>
                         <div class="flex-1 border-b border-dashed"></div>
-                        <b>80000 руб</b>
+                        <b>{{ cartTotal }} руб</b>
                     </div>
                     <div class="flex gap-2">
                         <span>Доставка:</span>
                         <div class="flex-1 border-b border-dashed"></div>
-                        <b>1000 руб</b>
+                        <b>{{ deliveryPrice }} руб</b>
                     </div>
                 </div>
 
                 <button
-                    disabled=""
-                    class="mx-auto mb-4 w-full flex-none rounded-xl bg-[#0000000d] p-3 text-xl font-medium transition duration-200 ease-in-out hover:bg-[#8295DF] hover:text-white active:bg-[#6878b6] active:text-white disabled:bg-slate-400 disabled:text-black"
+                    class="mx-auto mb-4 w-full flex-none rounded-xl bg-[#0000000d] p-3 text-xl font-medium transition duration-200 ease-in-out hover:bg-[#8295DF] hover:text-white active:bg-[#6878b6] active:text-white"
                 >
                     Оформить заказ
                 </button>

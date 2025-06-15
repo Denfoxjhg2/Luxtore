@@ -1,9 +1,20 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 import { useStore } from '../src/stores/store.js';
+
 const route = useRoute();
 const store = useStore();
+
+const successToast = () => {
+    toast.success('Вы успешно добавили телефон в корзину!', {
+        autoClose: 2000,
+        position: toast.POSITION.TOP_CENTER,
+    });
+};
+
 const summproducts = computed(() => {
     return store.products;
 });
@@ -44,8 +55,8 @@ const product = computed(() => {
                     </div>
                 </div>
                 <div class="h-0.5 w-full bg-slate-200"></div>
-                <h1 class="text-3xl font-bold">{{ product.price }}</h1>
-                <button class="rounded-xl bg-[#8295DF] p-4 px-20 text-xl font-bold text-white" @click="store.addToCart(product)">
+                <h1 class="text-3xl font-bold">{{ product.price }}₽</h1>
+                <button class="rounded-xl bg-[#8295DF] p-4 px-20 text-xl font-bold text-white" @click="(store.addToCart(product), successToast())">
                     Добавить в корзину
                 </button>
             </div>
