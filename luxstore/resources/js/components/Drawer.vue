@@ -1,9 +1,20 @@
 <script setup lang="ts">
 import CartItemList from '@/components/CartItemList.vue';
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 import { useStore } from '../src/stores/store.js';
 
+const router = useRouter();
 const store = useStore();
+
+const errorToast = () => {
+    toast.error('У вас произошла ошибка!', {
+        autoClose: 2000,
+        position: toast.POSITION.TOP_CENTER,
+    });
+};
 
 const cart = computed(() => {
     return store.cart;
@@ -12,11 +23,13 @@ const cartTotal = computed(() => {
     let price = store.cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
     return price;
 });
-const deliveryPrice = computed(() => {
-    const price = store.cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-    const delivery = price / 100;
-    return delivery;
-});
+const userCheck = () => {
+    if (localStorage.getItem('token') === null || store.cart.length === 0) {
+        return errorToast();
+    } else {
+        router.push('/order');
+    }
+};
 </script>
 <template>
     <div>
@@ -41,15 +54,11 @@ const deliveryPrice = computed(() => {
                         <div class="flex-1 border-b border-dashed"></div>
                         <b>{{ cartTotal }} руб</b>
                     </div>
-                    <div class="flex gap-2">
-                        <span>Доставка:</span>
-                        <div class="flex-1 border-b border-dashed"></div>
-                        <b>{{ deliveryPrice }} руб</b>
-                    </div>
                 </div>
 
                 <button
                     class="mx-auto mb-4 w-full flex-none rounded-xl bg-[#0000000d] p-3 text-xl font-medium transition duration-200 ease-in-out hover:bg-[#8295DF] hover:text-white active:bg-[#6878b6] active:text-white"
+                    @click="userCheck()"
                 >
                     Оформить заказ
                 </button>

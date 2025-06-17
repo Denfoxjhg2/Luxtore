@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/register', [RegisterController::class, 'register']);
 Route::get('/products', [ProductController::class, 'index']);
-Route::post('/purchase', [UserController::class, 'purchase']);
+
 
 Route::middleware(['auth:sanctum'])
     ->group(function () {
@@ -20,4 +20,6 @@ Route::middleware(['auth:sanctum'])
         });
         Route::post('/logout', action: [LoginController::class, 'logout']);
         Route::post('/update-user', [UpdateUserController::class, 'updateUser']);
+        Route::post('/purchase', [UserController::class, 'purchase']);
+Route::get('/orders', [UserController::class, 'getUserOrders']);
     });

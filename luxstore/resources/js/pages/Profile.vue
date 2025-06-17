@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import OrderItem from '@/components/OrderItem.vue';
 import axiosInstance from '@/src/axios/axios';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -62,6 +63,15 @@ const updateUser = async () => {
     }
 };
 
+const isProfile = ref(true);
+
+const showProfile = () => {
+    isProfile.value = true;
+};
+const showOrders = () => {
+    isProfile.value = false;
+};
+
 onMounted(() => {
     getUser();
 });
@@ -71,10 +81,22 @@ onMounted(() => {
         <h1 class="mt-28 text-4xl font-bold">Личный кабинет</h1>
         <div class="flex w-4/5 gap-28 pt-16">
             <div class="flex h-full w-1/3 flex-col items-start gap-4 rounded-xl border border-slate-300 bg-white p-4 text-lg">
-                <button class="transition hover:text-[#8295DF] focus:border-b-2 focus:border-[#8295DF]">Профиль</button>
-                <button class="transition hover:text-[#8295DF] focus:border-b-2 focus:border-[#8295DF]">Мои заказы</button>
+                <button
+                    class="transition hover:text-[#8295DF] focus:border-b-2 focus:border-[#8295DF]"
+                    @click="showProfile"
+                    :class="{ active: isProfile }"
+                >
+                    Профиль
+                </button>
+                <button
+                    class="transition hover:text-[#8295DF] focus:border-b-2 focus:border-[#8295DF]"
+                    @click="showOrders"
+                    :class="{ active: !isProfile }"
+                >
+                    Мои заказы
+                </button>
             </div>
-            <div class="w-full">
+            <div class="w-full" v-if="isProfile">
                 <h2 class="pb-4 text-2xl">Профиль</h2>
                 <div class="flex flex-col gap-4">
                     <div class="flex">
@@ -144,6 +166,10 @@ onMounted(() => {
                         <button class="rounded-xl bg-[#8295DF] p-2 px-20 text-white" @click="updateUser">Сохранить изменения</button>
                     </div>
                 </div>
+            </div>
+            <div class="w-full" v-else>
+                <h2 class="pb-4 text-2xl">Мои заказы</h2>
+                <OrderItem v-for="order in orders" :key="order.id" :order="order" />
             </div>
         </div>
     </div>

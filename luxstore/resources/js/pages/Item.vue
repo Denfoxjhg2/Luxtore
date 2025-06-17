@@ -14,6 +14,12 @@ const successToast = () => {
         position: toast.POSITION.TOP_CENTER,
     });
 };
+const errorToast = () => {
+    toast.error('Необходимо сначала зарегистрироваться в личном кабинете!', {
+        autoClose: 2000,
+        position: toast.POSITION.TOP_CENTER,
+    });
+};
 
 const summproducts = computed(() => {
     return store.products;
@@ -21,6 +27,14 @@ const summproducts = computed(() => {
 const product = computed(() => {
     return store.products.find((product) => product.slug === route.params.slug);
 });
+const userCheck = (product: any) => {
+    if (localStorage.getItem('token') === null) {
+        return errorToast();
+    } else {
+        store.addToCart(product);
+        successToast();
+    }
+};
 </script>
 
 <template>
@@ -56,9 +70,7 @@ const product = computed(() => {
                 </div>
                 <div class="h-0.5 w-full bg-slate-200"></div>
                 <h1 class="text-3xl font-bold">{{ product.price }}₽</h1>
-                <button class="rounded-xl bg-[#8295DF] p-4 px-20 text-xl font-bold text-white" @click="(store.addToCart(product), successToast())">
-                    Добавить в корзину
-                </button>
+                <button class="rounded-xl bg-[#8295DF] p-4 px-20 text-xl font-bold text-white" @click="userCheck(product)">Добавить в корзину</button>
             </div>
         </div>
         <div class="flex w-full gap-16 rounded-2xl bg-slate-200 p-6 px-10">

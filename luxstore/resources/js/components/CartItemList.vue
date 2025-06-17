@@ -1,15 +1,7 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useStore } from '../src/stores/store.js';
 import CartItem from './CartItem.vue';
-
-const customer = ref({
-    first_name: '',
-    last_name: '',
-    email: '',
-    phone: '',
-    address: '',
-});
 
 const store = useStore();
 
