@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\UpdateUserController;
@@ -23,4 +24,5 @@ Route::middleware(['auth:sanctum'])
         Route::post('/purchase', [UserController::class, 'purchase']);
         Route::get('/orders', [UserController::class, 'getUserOrders']);
         Route::post('/cancel-order', [UserController::class, 'cancelOrder']);
+        Route::post('/addProduct', action: [AdminController::class, 'addProduct']);
     });

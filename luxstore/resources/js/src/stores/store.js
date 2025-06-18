@@ -6,6 +6,11 @@ export const useStore = defineStore('main', () => {
     const products = ref([]);
     const cart = ref([]);
     const orders = ref([]);
+    const isUserAdmin = ref(false);
+
+    const isAdmin = () => {
+        isUserAdmin.value = true;
+    };
 
     const getProducts = async () => {
         try {
@@ -72,9 +77,11 @@ export const useStore = defineStore('main', () => {
         products,
         cart,
         orders,
+        isUserAdmin,
 
         getProducts,
         clearCart,
+        isAdmin,
 
         updateProducts,
         addToCart,

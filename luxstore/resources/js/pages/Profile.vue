@@ -28,6 +28,11 @@ const getUser = async () => {
         const token = localStorage.getItem('token');
         axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         const responce = await axiosInstance.get('/user');
+        if (responce.data.is_admin == true) {
+            store.isAdmin();
+        } else {
+            store.isUserAdmin = false;
+        }
         user.value = responce.data;
     } catch (error) {
         if (error) {
@@ -35,6 +40,7 @@ const getUser = async () => {
         }
     }
 };
+
 const logout = async () => {
     try {
         const responce = await axiosInstance.get('/logout');
@@ -123,6 +129,13 @@ onMounted(() => {
                     :class="{ active: !isProfile }"
                 >
                     Мои заказы
+                </button>
+                <button
+                    class="transition hover:text-[#8295DF] focus:border-b-2 focus:border-[#8295DF]"
+                    v-show="store.isUserAdmin === true"
+                    @click="router.push('/admin')"
+                >
+                    Админ панель
                 </button>
             </div>
             <div class="w-full" v-if="isProfile">
