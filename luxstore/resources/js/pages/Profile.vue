@@ -1,18 +1,12 @@
 <script setup lang="ts">
-import OrderItem from '@/components/OrderItem.vue';
 import axiosInstance from '@/src/axios/axios';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+import { useStore } from '../src/stores/store.js';
 
-const successquit = () => {
-    toast.success('Вы успешно вышли из аккаунта!', {
-        autoClose: 2000,
-        position: toast.POSITION.BOTTOM_CENTER,
-    });
-};
-
+const store = useStore();
 const router = useRouter();
 
 const user = ref({
@@ -23,6 +17,12 @@ const user = ref({
     address: '',
 });
 
+const successquit = () => {
+    toast.success('Вы успешно вышли из аккаунта!', {
+        autoClose: 2000,
+        position: toast.POSITION.BOTTOM_CENTER,
+    });
+};
 const getUser = async () => {
     try {
         const token = localStorage.getItem('token');
@@ -48,7 +48,6 @@ const logout = async () => {
         console.log(error);
     }
 };
-
 const updateUser = async () => {
     try {
         const token = localStorage.getItem('token');
@@ -72,8 +71,38 @@ const showOrders = () => {
     isProfile.value = false;
 };
 
+const allOrders = computed(() => {
+    return store.orders;
+});
+
+const cancelOrder = async (orderId: number, status: string) => {
+    if (status === 'Обрабатывается') {
+        try {
+            store.cancelOrder(orderId);
+            toast.success('Вы успешно отменили заказ!', {
+                autoClose: 2000,
+                position: toast.POSITION.BOTTOM_CENTER,
+            });
+        } catch (error) {
+            if (error) {
+                toast.error('Что-то пошло не так, возможно заказ уже выполняется', {
+                    autoClose: 2000,
+                    position: toast.POSITION.BOTTOM_CENTER,
+                });
+                console.log(error);
+            }
+        }
+    } else {
+        toast.error('Нельзя отменить уже выполненный заказ!', {
+            autoClose: 2000,
+            position: toast.POSITION.BOTTOM_CENTER,
+        });
+    }
+};
+
 onMounted(() => {
     getUser();
+    store.fetchOrders();
 });
 </script>
 <template>
@@ -167,9 +196,45 @@ onMounted(() => {
                     </div>
                 </div>
             </div>
-            <div class="w-full" v-else>
+            <div class="flex w-full flex-col gap-4" v-else>
                 <h2 class="pb-4 text-2xl">Мои заказы</h2>
-                <OrderItem v-for="order in orders" :key="order.id" :order="order" />
+                <div v-for="order in allOrders" :key="order.id">
+                    <div class="mb-8 h-1 w-full bg-slate-200"></div>
+                    <div class="mb-8 flex justify-between">
+                        <div class="flex flex-col gap-2">
+                            <div class="flex gap-2">
+                                <h1 class="text-xl font-bold">Заказ №{{ order.id }}</h1>
+                                <h2 class="text-l">{{ order.created_at }}</h2>
+                            </div>
+                            <div class="flex flex-col">
+                                <h2>{{ order.payment_method }}</h2>
+                                <h2>{{ order.shipping_address }}</h2>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <h2 class="text-xl font-bold">{{ order.status }}</h2>
+                            <h2>{{ order.total_amount }}₽</h2>
+                        </div>
+                    </div>
+
+                    <div v-for="item in order.items" :key="item.id" class="mb-8 flex items-center">
+                        <img :src="item.product.image_url" alt="phone" class="h-36" />
+                        <div class="flex-1"></div>
+                        <h1 class="font-bold">{{ item.product.name }}</h1>
+                        <div class="flex-1"></div>
+                        <h2 class="">{{ item.quantity }} шт.</h2>
+                        <div class="flex-1"></div>
+                        <h2 class="font-bold">{{ item.quantity * item.product.price }}₽</h2>
+                    </div>
+                    <button
+                        @click="cancelOrder(order.id, order.status)"
+                        class="text-l mb-8 rounded-xl bg-[#8295DF] p-2 px-10 font-bold text-white"
+                        v-show="order.status === 'Обрабатывается'"
+                    >
+                        Отменить заказ
+                    </button>
+                </div>
+                <div class="h-1 w-full bg-slate-200"></div>
             </div>
         </div>
     </div>

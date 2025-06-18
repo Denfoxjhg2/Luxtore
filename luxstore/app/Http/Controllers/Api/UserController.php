@@ -49,4 +49,11 @@ class UserController extends Controller
             $user->orders()->with('items.product')->latest()->get()
         );
     }
+    public function cancelOrder(Request $request)
+    {
+        $order = Order::findOrFail($request->orderId);
+        $order->status = 'Отменён';
+        $order->save();
+        return response()->json(['message' => 'Заказ отменен'], 200);
+    }
 }

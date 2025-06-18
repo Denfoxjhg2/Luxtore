@@ -21,5 +21,6 @@ Route::middleware(['auth:sanctum'])
         Route::post('/logout', action: [LoginController::class, 'logout']);
         Route::post('/update-user', [UpdateUserController::class, 'updateUser']);
         Route::post('/purchase', [UserController::class, 'purchase']);
-Route::get('/orders', [UserController::class, 'getUserOrders']);
+        Route::get('/orders', [UserController::class, 'getUserOrders']);
+        Route::post('/cancel-order', [UserController::class, 'cancelOrder']);
     });

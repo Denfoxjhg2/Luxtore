@@ -5,7 +5,7 @@ import { ref } from 'vue';
 export const useStore = defineStore('main', () => {
     const products = ref([]);
     const cart = ref([]);
-    const order = ref({});
+    const orders = ref([]);
 
     const getProducts = async () => {
         try {
@@ -38,8 +38,30 @@ export const useStore = defineStore('main', () => {
         cart.value.splice(index, 1);
     };
 
-    const updateOrder = (newOrder) => {
-        order.value = newOrder;
+    const sortedOrders = () => {
+        return [...orders.value].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    };
+
+    async function fetchOrders() {
+        try {
+            const response = await axiosInstance.get('/orders');
+            orders.value = response.data;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    function getOrderById(id) {
+        return computed(() => orders.value.find((order) => order.id === id));
+    }
+
+    const cancelOrder = async (orderId) => {
+        try {
+            await axiosInstance.post(`/cancel-order`, { orderId });
+            fetchOrders();
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     const updateCart = (newCart) => {
@@ -49,7 +71,7 @@ export const useStore = defineStore('main', () => {
     return {
         products,
         cart,
-        order,
+        orders,
 
         getProducts,
         clearCart,
@@ -57,7 +79,10 @@ export const useStore = defineStore('main', () => {
         updateProducts,
         addToCart,
         removeFromCart,
-        updateOrder,
+        getOrderById,
+        fetchOrders,
+        sortedOrders,
         updateCart,
+        cancelOrder,
     };
 });

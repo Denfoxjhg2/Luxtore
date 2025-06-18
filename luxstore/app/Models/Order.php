@@ -8,7 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-
+    
+    protected $casts = [
+        'created_at' => 'datetime:d.m.Y',
+        'updated_at' => 'datetime:d.m.Y',
+    ];
     protected $guarded = [];
 
     public function user()
