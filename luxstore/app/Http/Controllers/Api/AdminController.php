@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\Category;
 use App\Models\Product;
+use App\Models\Order;
 
 class AdminController extends Controller
 {
@@ -23,7 +25,7 @@ class AdminController extends Controller
         $img = $request->file('image');
         $typeImg = $img->extension();
         $uniqName = Str::random();
-        $nameImg = $uniqName + '.' + $typeImg;
+        $nameImg = $uniqName . '.' . $typeImg;
         $pathFolder = '/assets/images/';
         $img->move(public_path($pathFolder),$nameImg);
 
@@ -36,8 +38,28 @@ class AdminController extends Controller
             'price' => $validated['price'],
             'image_url' => $pathFolder . $nameImg,
             'category_id' => $validated['category_id'],
-            'slug' => Str::slug($product->name . '-' . $product->id),
+            'slug' => Str::slug($validated['name']),
         ]);
         return response()->json(['message' => 'Товар добавлен', 'id' => $product->id], 201);
+    }
+
+    public function addCategory (Request $request) 
+    {
+        $validated = $request->validate([
+            'name' => ['required'],
+            'description' => ['required'],
+        ]);
+        $category = Category::create([
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'slug' => Str::slug($validated['name']),
+        ]);
+        return response()->json(['message' => 'Товар добавлен', 'id' => $category->id], 201);
+    }
+
+    public function getAllOrders ()
+    {
+        $orders = Order::with('items.product')->latest()->get();
+    return response()->json($orders);
     }
 }

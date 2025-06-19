@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/register', [RegisterController::class, 'register']);
 Route::get('/products', [ProductController::class, 'index']);
+Route::get('/categories', [ProductController::class, 'categories']);
 
 
 Route::middleware(['auth:sanctum'])
@@ -25,4 +26,6 @@ Route::middleware(['auth:sanctum'])
         Route::get('/orders', [UserController::class, 'getUserOrders']);
         Route::post('/cancel-order', [UserController::class, 'cancelOrder']);
         Route::post('/addProduct', action: [AdminController::class, 'addProduct']);
+        Route::post('/addCategory', action: [AdminController::class, 'addCategory']);
+        Route::get('/allOrders', [AdminController::class, 'getAllOrders']);
     });

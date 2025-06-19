@@ -6,10 +6,39 @@ export const useStore = defineStore('main', () => {
     const products = ref([]);
     const cart = ref([]);
     const orders = ref([]);
+    const categories = ref([]);
     const isUserAdmin = ref(false);
 
     const isAdmin = () => {
         isUserAdmin.value = true;
+    };
+
+    const getAllOrders = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            const response = await axiosInstance.get('/allOrders');
+            updateOrders(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const getCategories = async () => {
+        try {
+            const response = await axiosInstance.get('/categories');
+            updateCategories(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const updateOrders = (newOrders) => {
+        orders.value = newOrders;
+    };
+
+    const updateCategories = (newCategory) => {
+        categories.value = newCategory;
     };
 
     const getProducts = async () => {
@@ -78,12 +107,17 @@ export const useStore = defineStore('main', () => {
         cart,
         orders,
         isUserAdmin,
+        categories,
 
         getProducts,
+        getCategories,
         clearCart,
         isAdmin,
 
         updateProducts,
+        updateOrders,
+        getAllOrders,
+        updateCategories,
         addToCart,
         removeFromCart,
         getOrderById,

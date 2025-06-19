@@ -14,9 +14,12 @@ const productStore = useStore();
 productStore
     .getProducts()
     .then(() => {
+        productStore.getCategories();
+    })
+    .then(() => {
         app.mount('#app');
     })
     .catch((error) => {
         console.error('Failed to load products:', error);
-        app.mount('#app'); // Все равно монтируем приложение
+        app.mount('#app');
     });
