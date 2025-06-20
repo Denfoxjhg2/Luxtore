@@ -15,6 +15,7 @@ export const useStore = defineStore('main', () => {
 
     const getAllOrders = async () => {
         try {
+            updateOrders([]);
             const token = localStorage.getItem('token');
             axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             const response = await axiosInstance.get('/allOrders');

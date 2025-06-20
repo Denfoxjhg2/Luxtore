@@ -62,4 +62,11 @@ class AdminController extends Controller
         $orders = Order::with('items.product', 'user')->latest()->get();
     return response()->json($orders);
     }
+    public function updateStatus (Request $request)
+    {
+        $order = Order::findOrFail($request->id);
+        $order->status = $request->status;
+        $order->save();
+        return response()->json(['message' => 'Статус заказа успешно изменен'], 200);
+    }
 }

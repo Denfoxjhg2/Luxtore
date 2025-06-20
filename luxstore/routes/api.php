@@ -28,4 +28,5 @@ Route::middleware(['auth:sanctum'])
         Route::post('/addProduct', action: [AdminController::class, 'addProduct']);
         Route::post('/addCategory', action: [AdminController::class, 'addCategory']);
         Route::get('/allOrders', [AdminController::class, 'getAllOrders']);
+        Route::post('/updateStatus', [AdminController::class, 'updateStatus']);
     });

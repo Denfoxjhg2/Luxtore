@@ -21,6 +21,7 @@ const product = ref({
     sim: '',
     price: '',
 });
+
 const store = useStore();
 const categories = computed(() => {
     return store.categories;
@@ -49,6 +50,23 @@ const addcategory = async () => {
             description: category.value.descriptionCat,
         });
         successToast();
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+const updateStatus = async (id: number, status: number) => {
+    try {
+        const token = localStorage.getItem('token');
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const response = await axiosInstance.post('/updateStatus', {
+            id: id,
+            status: status,
+        });
+        toast.success('Статус успешно обновлен!', {
+            autoClose: 2000,
+            position: toast.POSITION.TOP_CENTER,
+        });
     } catch (error) {
         console.log(error);
     }
@@ -96,7 +114,7 @@ onMounted(async () => {
         <div v-show="page == 1">
             <h1 class="my-16 text-4xl font-bold">Добавить товар</h1>
             <form @submit.prevent="addProduct()" enctype="multipart/form-data">
-                <div class="flex w-1/2 flex-col items-center">
+                <div class="flex w-1/2 flex-col gap-4">
                     <input
                         class="rounded-xl border border-slate-300 bg-[#EEEEEE] p-2 pr-28"
                         type="text"
@@ -104,13 +122,13 @@ onMounted(async () => {
                         placeholder="Название смартфона"
                         v-model="product.name"
                     />
-                    <input
-                        class="rounded-xl border border-slate-300 bg-[#EEEEEE] p-2 pr-28"
+                    <textarea
+                        class="wrap-break-word whitespace-normal rounded-xl border border-slate-300 bg-[#EEEEEE] p-2 pr-28"
                         type="text"
                         name="description"
                         placeholder="Описание смартфона"
                         v-model="product.description"
-                    />
+                    ></textarea>
                     <input
                         class="rounded-xl border border-slate-300 bg-[#EEEEEE] p-2 pr-28"
                         type="text"
@@ -139,23 +157,27 @@ onMounted(async () => {
                         placeholder="Цена"
                         v-model="product.price"
                     />
-                    <input type="file" accept="image/*" name="image" id="image" />
+                    <input type="file" accept="image/*" name="image" id="image" class="rounded-xl border border-slate-300 bg-[#EEEEEE] p-2" />
                     <select class="rounded-xl border border-slate-300 bg-[#EEEEEE] p-2 pr-28" v-model="product.categoryId">
                         <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}</option>
                     </select>
-                    <button>Добавить</button>
+                    <button
+                        class="text-l mb-8 rounded-xl bg-[#8295DF] p-2 px-10 font-bold text-white transition hover:bg-slate-300 hover:text-black active:bg-[#6878b6] active:text-white"
+                    >
+                        Добавить
+                    </button>
                 </div>
             </form>
         </div>
         <div v-show="page == 2">
-            <h2 class="pb-4 text-2xl">Пользовательские заказы</h2>
+            <h2 class="my-16 text-4xl font-bold">Пользовательские заказы</h2>
             <div v-for="order in orders" :key="order.id">
                 <div class="mb-8 h-1 w-full bg-slate-200"></div>
                 <div class="mb-8 flex gap-8">
-                    <h1 class="text-xl font-medium">Имя: {{ order.user.first_name }}</h1>
-                    <h1 class="text-xl font-medium">Фамилия: {{ order.user.last_name }}</h1>
-                    <h1 class="text-xl font-medium">Почта: {{ order.user.email }}</h1>
-                    <h1 class="text-xl font-medium">Телефон: {{ order.user.phone }}</h1>
+                    <h1 class="text-xl font-medium">Имя: {{ order?.user?.first_name }}</h1>
+                    <h1 class="text-xl font-medium">Фамилия: {{ order?.user?.last_name }}</h1>
+                    <h1 class="text-xl font-medium">Почта: {{ order?.user?.email }}</h1>
+                    <h1 class="text-xl font-medium">Телефон: {{ order?.user?.phone }}</h1>
                 </div>
                 <div class="mb-8 flex justify-between">
                     <div class="flex flex-col gap-2">
@@ -183,20 +205,27 @@ onMounted(async () => {
                     <div class="flex-1"></div>
                     <h2 class="font-bold">{{ item.quantity * item.product.price }}₽</h2>
                 </div>
-                <!-- <button
-                    @click="cancelOrder(order.id, order.status)"
-                    class="text-l mb-8 rounded-xl bg-[#8295DF] p-2 px-10 font-bold text-white"
-                    v-show="order.status === 'Обрабатывается'"
-                >
-                    Отменить заказ
-                </button> -->
+                <form @submit.prevent="updateStatus(order.id, order.status)">
+                    <div class="mb-8 flex gap-8">
+                        <label for="newstatus">Изменить статус</label>
+                        <select name="newstatus" v-model="order.status">
+                            <option disabled selected>Текущий: {{ order.status }}</option>
+                            <option value="Обрабатывается">Обрабатывается</option>
+                            <option value="Доставляется">Доставляется</option>
+                            <option value="Доставлен">Доставлен</option>
+                            <option value="В ожидании">В ожидании</option>
+                            <option value="Отменён">Отменён</option>
+                        </select>
+                        <button>Изменить</button>
+                    </div>
+                </form>
             </div>
             <div class="h-1 w-full bg-slate-200"></div>
         </div>
         <div v-show="page == 3">
             <h1 class="my-16 text-4xl font-bold">Добавить бренд</h1>
             <form @submit.prevent="addcategory()">
-                <div class="flex w-1/2 flex-col items-center">
+                <div class="flex w-1/3 flex-col gap-6">
                     <input
                         class="rounded-xl border border-slate-300 bg-[#EEEEEE] p-2 pr-28"
                         type="text"
@@ -211,7 +240,11 @@ onMounted(async () => {
                         placeholder="Описание бренда"
                         v-model="category.descriptionCat"
                     />
-                    <button>Добавить</button>
+                    <button
+                        class="text-l mb-8 rounded-xl bg-[#8295DF] p-2 px-10 font-bold text-white transition hover:bg-slate-300 hover:text-black active:bg-[#6878b6] active:text-white"
+                    >
+                        Добавить
+                    </button>
                 </div>
             </form>
         </div>
