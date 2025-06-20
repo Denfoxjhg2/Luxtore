@@ -59,7 +59,7 @@ class AdminController extends Controller
 
     public function getAllOrders ()
     {
-        $orders = Order::with('items.product')->latest()->get();
+        $orders = Order::with('items.product', 'user')->latest()->get();
     return response()->json($orders);
     }
 }

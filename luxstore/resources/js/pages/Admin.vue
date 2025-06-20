@@ -151,6 +151,12 @@ onMounted(async () => {
             <h2 class="pb-4 text-2xl">Пользовательские заказы</h2>
             <div v-for="order in orders" :key="order.id">
                 <div class="mb-8 h-1 w-full bg-slate-200"></div>
+                <div class="mb-8 flex gap-8">
+                    <h1 class="text-xl font-medium">Имя: {{ order.user.first_name }}</h1>
+                    <h1 class="text-xl font-medium">Фамилия: {{ order.user.last_name }}</h1>
+                    <h1 class="text-xl font-medium">Почта: {{ order.user.email }}</h1>
+                    <h1 class="text-xl font-medium">Телефон: {{ order.user.phone }}</h1>
+                </div>
                 <div class="mb-8 flex justify-between">
                     <div class="flex flex-col gap-2">
                         <div class="flex gap-2">

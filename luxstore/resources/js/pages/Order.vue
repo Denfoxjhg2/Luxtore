@@ -49,10 +49,21 @@ const getUser = async () => {
         }
     }
 };
+
+const updateUser = async () => {
+    try {
+        const token = localStorage.getItem('token');
+        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        await axiosInstance.post('/update-user', user.value);
+    } catch (error) {
+        console.log(error);
+    }
+};
 const createOrder = async () => {
     try {
         const token = localStorage.getItem('token');
         axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        updateUser();
         const response = await axiosInstance.post('/purchase', {
             items: store.cart,
             first_name: user.value.first_name,
@@ -62,6 +73,10 @@ const createOrder = async () => {
             address: user.value.address,
             payment_method: user.value.payment_method,
             total_amount: cartTotal.value,
+        });
+        toast.success('Заказ успешно оформлен', {
+            autoClose: 2000,
+            position: toast.POSITION.BOTTOM_CENTER,
         });
         router.push('/profile');
         store.clearCart();

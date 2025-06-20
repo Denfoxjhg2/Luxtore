@@ -19,9 +19,19 @@ export const useStore = defineStore('main', () => {
             axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             const response = await axiosInstance.get('/allOrders');
             updateOrders(response.data);
+            sortOrdersByStatus();
         } catch (error) {
             console.error(error);
         }
+    };
+
+    const sortOrdersByStatus = async () => {
+        const sortedOrders = [
+            ...orders.value.filter((order) => order.status === 'Обрабатывается'),
+            ...orders.value.filter((order) => order.status === 'Доставляется'),
+            ...orders.value.filter((order) => order.status === 'Доставлен'),
+        ];
+        updateOrders(sortedOrders);
     };
 
     const getCategories = async () => {
@@ -72,10 +82,6 @@ export const useStore = defineStore('main', () => {
         cart.value.splice(index, 1);
     };
 
-    const sortedOrders = () => {
-        return [...orders.value].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    };
-
     async function fetchOrders() {
         try {
             const response = await axiosInstance.get('/orders');
@@ -83,10 +89,6 @@ export const useStore = defineStore('main', () => {
         } catch (error) {
             console.error(error);
         }
-    }
-
-    function getOrderById(id) {
-        return computed(() => orders.value.find((order) => order.id === id));
     }
 
     const cancelOrder = async (orderId) => {
@@ -115,14 +117,13 @@ export const useStore = defineStore('main', () => {
         isAdmin,
 
         updateProducts,
+        sortOrdersByStatus,
         updateOrders,
         getAllOrders,
         updateCategories,
         addToCart,
         removeFromCart,
-        getOrderById,
         fetchOrders,
-        sortedOrders,
         updateCart,
         cancelOrder,
     };
