@@ -4,9 +4,6 @@
     <header class="flex h-16 justify-between border-b border-slate-300 px-72 shadow-md">
         <router-link to="/" class="align-center flex"><img src="/assets/icons/Luxtore.svg" alt="logo" class="w-32" /></router-link>
         <ul class="flex items-center gap-8">
-            <router-link to="#" class="cursor-pointer opacity-50 transition hover:opacity-100">
-                <img src="/assets/icons/search.svg" alt="search" />
-            </router-link>
             <router-link to="/catalog" class="cursor-pointer opacity-50 transition hover:opacity-100">
                 <img src="/assets/icons/catalog.svg" alt="catalog" />
             </router-link>
