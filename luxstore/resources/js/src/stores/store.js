@@ -1,6 +1,6 @@
 import axiosInstance from '@/src/axios/axios';
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 export const useStore = defineStore('main', () => {
     const products = ref([]);
@@ -8,6 +8,32 @@ export const useStore = defineStore('main', () => {
     const orders = ref([]);
     const categories = ref([]);
     const isUserAdmin = ref(false);
+    const sortOptions = ref([
+        { label: 'По возрастанию цены', value: 'price-asc' },
+        { label: 'По убыванию цены', value: 'price-desc' },
+        { label: 'Сначала новинки', value: 'created_at-desc' },
+    ]);
+    const selectedSort = ref('created_at-desc');
+
+    const sortedProducts = computed(() => {
+        const [sortKey, sortDirection] = selectedSort.value.split('-');
+
+        return [...products.value].sort((a, b) => {
+            if (sortKey === 'created_at') {
+                const dateA = new Date(a.created_at);
+                const dateB = new Date(b.created_at);
+                return sortDirection === 'desc' ? dateB - dateA : dateA - dateB;
+            }
+
+            if (sortKey === 'price') {
+                return sortDirection === 'asc' ? a.price - b.price : b.price - a.price;
+            }
+
+            return sortDirection === 'asc'
+                ? String(a[sortKey]).localeCompare(String(b[sortKey]))
+                : String(b[sortKey]).localeCompare(String(a[sortKey]));
+        });
+    });
 
     const isAdmin = () => {
         isUserAdmin.value = true;
@@ -111,6 +137,8 @@ export const useStore = defineStore('main', () => {
         orders,
         isUserAdmin,
         categories,
+        sortOptions,
+        selectedSort,
 
         getProducts,
         getCategories,
@@ -118,6 +146,7 @@ export const useStore = defineStore('main', () => {
         isAdmin,
 
         updateProducts,
+        sortedProducts,
         sortOrdersByStatus,
         updateOrders,
         getAllOrders,

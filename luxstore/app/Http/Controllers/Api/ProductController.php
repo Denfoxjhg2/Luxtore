@@ -17,4 +17,9 @@ class ProductController extends Controller
     {
         return Category::all();
     }
+
+    public function filterInfo()
+    {
+        return Product::select('color', 'memory', 'sim')->distinct()->get();
+    }
 }
