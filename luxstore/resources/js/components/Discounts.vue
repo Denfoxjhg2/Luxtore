@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { useStore } from '../src/stores/store.js';
+
+const store = useStore();
 const observerTarget = ref<HTMLElement | null>(null);
 const isVisible = ref(false);
 
@@ -33,16 +36,16 @@ onMounted(() => {
                         src="/assets/ads/smallapplead.png"
                         alt="ads"
                         class="cursor-pointer rounded-xl border border-slate-100"
-                        @click="$router.push('/catalog')"
+                        @click="($router.push('/catalog'), (store.filters.brand = 'Apple'))"
                     />
-                    <p>Скидка на IPhone 16</p>
+                    <p>Хит этого лета: IPhone 16</p>
                 </div>
                 <div class="flex flex-col gap-3">
                     <img
                         src="/assets/ads/smallpixelad.png"
                         alt="ads"
                         class="cursor-pointer rounded-xl border border-slate-100"
-                        @click="$router.push('/catalog')"
+                        @click="($router.push('/catalog'), (store.filters.brand = 'Google'))"
                     />
                     <p>Предзаказ Google Pixel 9</p>
                 </div>
@@ -51,7 +54,7 @@ onMounted(() => {
                         src="/assets/ads/smallsamsad.png"
                         alt="ads"
                         class="cursor-pointer rounded-xl border border-slate-100"
-                        @click="$router.push('/catalog')"
+                        @click="($router.push('/catalog'), (store.filters.brand = 'Samsung'))"
                     />
                     <p>Старт продаж Galaxy S25 Ultra</p>
                 </div>
@@ -60,7 +63,7 @@ onMounted(() => {
                         src="/assets/ads/smallnothad.png"
                         alt="ads"
                         class="cursor-pointer rounded-xl border border-slate-100"
-                        @click="$router.push('/catalog')"
+                        @click="$router.push('/catalog')((store.filters.brand = 'Nothing'))"
                     />
                     <p>Новинка: Nothing Phone 2</p>
                 </div>

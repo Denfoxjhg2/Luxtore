@@ -9,7 +9,7 @@ const isOpen = ref(false);
 const query = ref([]);
 
 const queryProducts = computed(() => {
-    let p = store.sortedProducts;
+    let p = store.sortedAndFilteredProducts;
     if (query.value) {
         p = p.filter((product: any) => product.name.toLowerCase().indexOf(String(query.value).toLowerCase()) !== -1);
     }
@@ -39,18 +39,30 @@ const toggleDrawer = () => {
                 <option v-for="option in store.sortOptions" :key="option.value" :value="option.value">{{ option.label }}</option>
             </select>
         </div>
-        <div class="my-8 flex gap-8" v-if="isOpen">
+        <div class="my-8 flex justify-between" v-if="isOpen">
             <form class="flex gap-8">
-                <!-- <select>
-                    <option v-for="filter in summproducts" :key="filter.id" value="1">{{ filter.memory }}</option>
-                    >
+                <select class="rounded-xl border border-slate-300 bg-slate-200 p-2" v-model="store.filters.color">
+                    <option value="null" selected>Цвет</option>
+                    <option v-for="color in store.filterOptions.colors" :key="color" :value="color">{{ color }}</option>
                 </select>
-                <select>
-                    <option v-for="filter in summproducts" :key="filter.id" value="1">{{ filter.color }}</option>
+                <select class="rounded-xl border border-slate-300 bg-slate-200 p-2" v-model="store.filters.memory">
+                    <option value="null" selected>Память</option>
+                    <option v-for="memory in store.filterOptions.memories" :key="memory" :value="memory">{{ memory }}</option>
                 </select>
-                <select>
-                    <option v-for="filter in summproducts" :key="filter.id" value="1">{{ filter.sim }}</option>
-                </select> -->
+                <select class="rounded-xl border border-slate-300 bg-slate-200 p-2" v-model="store.filters.sim">
+                    <option value="null" selected>Тип Sim</option>
+                    <option v-for="sim in store.filterOptions.sims" :key="sim" :value="sim">{{ sim }}</option>
+                </select>
+                <select class="rounded-xl border border-slate-300 bg-slate-200 p-2" v-model="store.filters.brand">
+                    <option value="null" selected>Бренд</option>
+                    <option v-for="brand in store.filterOptions.brands" :key="brand" :value="brand">{{ brand }}</option>
+                </select>
+                <button
+                    class="text-l rounded-xl bg-[#8295DF] p-2 font-bold text-white transition hover:bg-slate-300 hover:text-black active:bg-[#6878b6] active:text-white"
+                    @click="store.resetFilters"
+                >
+                    Отменить фильтры
+                </button>
             </form>
             <div class="flex gap-2">
                 <input type="search" v-model="query" class="rounded-xl border border-slate-300 bg-slate-200 p-2 pr-28" placeholder="Поиск..." />

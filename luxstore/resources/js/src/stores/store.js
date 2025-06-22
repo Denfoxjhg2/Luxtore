@@ -14,11 +14,51 @@ export const useStore = defineStore('main', () => {
         { label: 'Сначала новинки', value: 'created_at-desc' },
     ]);
     const selectedSort = ref('created_at-desc');
+    const filters = ref({
+        color: null,
+        memory: null,
+        sim: null,
+        brand: null,
+    });
 
-    const sortedProducts = computed(() => {
+    const filterOptions = computed(() => {
+        const colors = new Set();
+        const memories = new Set();
+        const sims = new Set();
+        const brands = new Set();
+
+        products.value.forEach((product) => {
+            if (product.color) colors.add(product.color);
+            if (product.memory) memories.add(product.memory);
+            if (product.sim) sims.add(product.sim);
+            const brandCategory = categories.value.find((cat) => cat.id === product.category_id);
+            if (brandCategory?.name) {
+                brands.add(brandCategory.name);
+            }
+        });
+        return {
+            colors: Array.from(colors).sort(),
+            memories: Array.from(memories).sort((a, b) => a - b),
+            sims: Array.from(sims).sort(),
+            brands: Array.from(brands).sort(),
+        };
+    });
+
+    const sortedAndFilteredProducts = computed(() => {
+        const filtered = products.value.filter((product) => {
+            const brandCategory = categories.value.find((cat) => cat.id === product.category_id);
+            const brandName = brandCategory?.name || '';
+            return (
+                (!filters.value.color || product.color === filters.value.color) &&
+                (!filters.value.memory || product.memory == filters.value.memory) &&
+                (!filters.value.sim || product.sim === filters.value.sim) &&
+                (!filters.value.brand || brandName === filters.value.brand)
+            );
+        });
+
         const [sortKey, sortDirection] = selectedSort.value.split('-');
 
-        return [...products.value].sort((a, b) => {
+        return [...filtered].sort((a, b) => {
             if (sortKey === 'created_at') {
                 const dateA = new Date(a.created_at);
                 const dateB = new Date(b.created_at);
@@ -34,6 +74,15 @@ export const useStore = defineStore('main', () => {
                 : String(b[sortKey]).localeCompare(String(a[sortKey]));
         });
     });
+
+    const resetFilters = () => {
+        filters.value = {
+            color: null,
+            memory: null,
+            sim: null,
+            brand: null,
+        };
+    };
 
     const isAdmin = () => {
         isUserAdmin.value = true;
@@ -139,6 +188,7 @@ export const useStore = defineStore('main', () => {
         categories,
         sortOptions,
         selectedSort,
+        filters,
 
         getProducts,
         getCategories,
@@ -146,8 +196,10 @@ export const useStore = defineStore('main', () => {
         isAdmin,
 
         updateProducts,
-        sortedProducts,
+        filterOptions,
+        sortedAndFilteredProducts,
         sortOrdersByStatus,
+        resetFilters,
         updateOrders,
         getAllOrders,
         updateCategories,

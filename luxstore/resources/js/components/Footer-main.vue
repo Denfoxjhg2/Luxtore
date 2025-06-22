@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useStore } from '../src/stores/store.js';
+
+const store = useStore();
+</script>
 
 <template>
     <footer class="mt-52 h-96 w-full bg-black">
@@ -15,9 +19,15 @@
                 <div onclick="window.scrollTo(0, 0)" class="flex flex-col gap-3">
                     <router-link to="/catalog" class="text-xl text-slate-200 transition hover:text-[#8295DF]">Каталог</router-link>
                     <div class="flex flex-col">
-                        <router-link to="/catalog" class="text-gray-500 transition hover:text-slate-200">Apple</router-link>
-                        <router-link to="/catalog" class="text-gray-500 transition hover:text-slate-200">Samsung</router-link>
-                        <router-link to="/catalog" class="text-gray-500 transition hover:text-slate-200">Google</router-link>
+                        <router-link to="/catalog" class="text-gray-500 transition hover:text-slate-200" @click="store.filters.brand = 'Apple'"
+                            >Apple</router-link
+                        >
+                        <router-link to="/catalog" class="text-gray-500 transition hover:text-slate-200" @click="store.filters.brand = 'Samsung'"
+                            >Samsung</router-link
+                        >
+                        <router-link to="/catalog" class="text-gray-500 transition hover:text-slate-200" @click="store.filters.brand = 'Google'"
+                            >Google</router-link
+                        >
                     </div>
                 </div>
                 <div class="flex flex-col gap-2">

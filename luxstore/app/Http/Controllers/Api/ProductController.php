@@ -11,15 +11,10 @@ class ProductController extends Controller
 {
     public function index()
     {
-        return Product::with('categories:id,name')->get();
+        return Product::all();
     }
     public function categories()
     {
         return Category::all();
-    }
-
-    public function filterInfo()
-    {
-        return Product::select('color', 'memory', 'sim')->distinct()->get();
     }
 }
