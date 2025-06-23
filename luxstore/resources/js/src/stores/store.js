@@ -151,7 +151,6 @@ export const useStore = defineStore('main', () => {
             return;
         }
         cart.value.push({ ...product, quantity: 1 });
-        console.log('added to cart');
     };
 
     const removeFromCart = (index) => {

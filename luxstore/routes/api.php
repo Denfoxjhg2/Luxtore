@@ -23,6 +23,7 @@ Route::middleware(['auth:sanctum'])
         Route::post('/logout', action: [LoginController::class, 'logout']);
         Route::post('/update-user', [UpdateUserController::class, 'updateUser']);
         Route::post('/purchase', [UserController::class, 'purchase']);
+        Route::post('/addReview', [UserController::class, 'createReview']);
         Route::get('/orders', [UserController::class, 'getUserOrders']);
         Route::post('/cancel-order', [UserController::class, 'cancelOrder']);
         Route::post('/addProduct', action: [AdminController::class, 'addProduct']);

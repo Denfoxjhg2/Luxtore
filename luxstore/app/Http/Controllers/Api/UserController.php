@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Order;
 use App\Models\Order_item;
+use App\Models\Review;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -55,5 +56,21 @@ class UserController extends Controller
         $order->status = 'Отменён';
         $order->save();
         return response()->json(['message' => 'Заказ отменен'], 200);
+    }
+    public function createReview(Request $request)
+    {
+        $user = Auth::user();
+        $request->validate([
+            'product_id' => 'required|int|exists:products,id',
+            'rating' => 'required|int|min:1|max:5',
+            'comment' => 'required|string',
+        ]);
+        $review = Review::create([
+            'user_id' => $user->id,
+            'product_id' => $request->product_id,
+            'rating' => $request->rating,
+            'comment' => $request->comment,
+        ]);
+        return response()->json(['message' => 'Отзыв успешно создан'], 201);
     }
 }

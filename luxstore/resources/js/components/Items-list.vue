@@ -42,19 +42,19 @@ const toggleDrawer = () => {
         <div class="my-8 flex justify-between" v-if="isOpen">
             <form class="flex gap-8">
                 <select class="rounded-xl border border-slate-300 bg-slate-200 p-2" v-model="store.filters.color">
-                    <option value="null" selected>Цвет</option>
+                    <option value="null" disabled selected>Цвет</option>
                     <option v-for="color in store.filterOptions.colors" :key="color" :value="color">{{ color }}</option>
                 </select>
                 <select class="rounded-xl border border-slate-300 bg-slate-200 p-2" v-model="store.filters.memory">
-                    <option value="null" selected>Память</option>
+                    <option value="null" disabled selected>Память</option>
                     <option v-for="memory in store.filterOptions.memories" :key="memory" :value="memory">{{ memory }}</option>
                 </select>
                 <select class="rounded-xl border border-slate-300 bg-slate-200 p-2" v-model="store.filters.sim">
-                    <option value="null" selected>Тип Sim</option>
+                    <option value="null" disabled selected>Тип Sim</option>
                     <option v-for="sim in store.filterOptions.sims" :key="sim" :value="sim">{{ sim }}</option>
                 </select>
                 <select class="rounded-xl border border-slate-300 bg-slate-200 p-2" v-model="store.filters.brand">
-                    <option value="null" selected>Бренд</option>
+                    <option value="null" disabled selected>Бренд</option>
                     <option v-for="brand in store.filterOptions.brands" :key="brand" :value="brand">{{ brand }}</option>
                 </select>
                 <button

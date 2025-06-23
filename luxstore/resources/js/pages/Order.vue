@@ -36,6 +36,7 @@ const user = ref({
     phone: '',
     address: '',
     payment_method: '',
+    agreement: false,
 });
 const getUser = async () => {
     try {
@@ -61,6 +62,10 @@ const updateUser = async () => {
 };
 const createOrder = async () => {
     try {
+        console.log(user.value.agreement);
+        if (user.value.agreement !== true) {
+            return errorToast();
+        }
         const token = localStorage.getItem('token');
         axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         updateUser();
@@ -97,7 +102,7 @@ onMounted(() => {
 
 <template>
     <div class="flex flex-col gap-3 px-72">
-        <form @submit.prevent="createOrder()">
+        <form @submit.prevent="createOrder()" class="flex flex-col gap-4">
             <h1 class="my-20 text-4xl font-medium">Оформление заказа</h1>
             <div class="flex flex-col gap-4">
                 <h1 class="text-xl font-bold">Данные покупателя</h1>
@@ -155,7 +160,7 @@ onMounted(() => {
                     <div><input type="radio" name="pay" value="Оплата картой" v-model="user.payment_method" /> <span>Оплата картой</span></div>
                 </div>
                 <div>
-                    <input type="checkbox" name="agree" id="" class="mr-2" />
+                    <input type="checkbox" name="agree" class="mr-2" :value="user.agreement" v-model="user.agreement" />
                     <label for="agree">Я соглашаюсь с политикой конфидециальности</label>
                 </div>
             </div>
