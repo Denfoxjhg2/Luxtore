@@ -36,8 +36,4 @@ class LoginController extends Controller
         $user->currentAccessToken()->delete();
         return response('', 204);
     }
-    public function getUser(Request $request)
-    {
-        return new UserResource($request->user());
-    }
 }
