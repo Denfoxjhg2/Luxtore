@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import axiosInstance from '@/src/axios/axios';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import { reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
@@ -32,7 +32,7 @@ const errorMsg = reactive({
 
 const login = async () => {
     await axiosInstance.get('/sanctum/csrf-cookie', {
-        baseURL: 'http://127.0.0.1:8000',
+        baseURL: axios.defaults.baseURL,
     });
     try {
         const response = await axiosInstance.post(
