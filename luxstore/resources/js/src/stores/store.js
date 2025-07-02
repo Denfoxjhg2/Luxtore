@@ -84,10 +84,6 @@ export const useStore = defineStore('main', () => {
         };
     };
 
-    const isAdmin = () => {
-        isUserAdmin.value = true;
-    };
-
     const getAllOrders = async () => {
         try {
             updateOrders([]);
@@ -192,7 +188,6 @@ export const useStore = defineStore('main', () => {
         getProducts,
         getCategories,
         clearCart,
-        isAdmin,
 
         updateProducts,
         filterOptions,

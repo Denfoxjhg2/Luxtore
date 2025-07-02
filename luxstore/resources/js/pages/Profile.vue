@@ -28,11 +28,7 @@ const getUser = async () => {
         const token = localStorage.getItem('token');
         axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         const responce = await axiosInstance.get('/user');
-        if (responce.data.is_admin == true) {
-            store.isAdmin();
-        } else {
-            store.isUserAdmin = false;
-        }
+        store.isUserAdmin = responce.data.is_admin;
         user.value = responce.data;
     } catch (error) {
         if (error) {
