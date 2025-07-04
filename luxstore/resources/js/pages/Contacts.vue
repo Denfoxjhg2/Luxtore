@@ -3,13 +3,13 @@ import { Vue3Marquee } from 'vue3-marquee';
 import { toast } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 const teltoast = () => {
-    toast.info('Наш номер телефона службы поддержки пользователей: 8-912-055-16-91', {
+    toast.info('Наш номер телефона службы поддержки пользователей: 8-912-056-78-90', {
         position: toast.POSITION.TOP_CENTER,
     });
 };
 
 const mailtoast = () => {
-    toast.info('Наша электронная почта для связи: komyshev.d@mail.ru', {
+    toast.info('Наша электронная почта для связи: luxtore@mail.ru', {
         position: toast.POSITION.TOP_CENTER,
     });
 };
@@ -46,10 +46,10 @@ const mailtoast = () => {
                 <img src="/assets/images/iPhone16ProWH.png" alt="iphone" class="" />
             </div>
             <div class="flex gap-20">
-                <a class="flex items-center justify-center transition hover:-translate-y-1" href="https://t.me/bruhmomento77"
+                <a class="flex items-center justify-center transition hover:-translate-y-1" href="https://web.telegram.org/"
                     ><img class="cursor-pointer" src="/assets/icons/tgblack.svg" alt="telegram"
                 /></a>
-                <a class="flex items-center justify-center transition hover:-translate-y-1" href="https://vk.com/bruhmoment44"
+                <a class="flex items-center justify-center transition hover:-translate-y-1" href="https://vk.com"
                     ><img src="/assets/icons/vkblack.svg" alt="vk"
                 /></a>
             </div>

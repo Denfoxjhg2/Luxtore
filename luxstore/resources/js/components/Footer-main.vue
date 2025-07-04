@@ -31,14 +31,14 @@ const store = useStore();
                     </div>
                 </div>
                 <div class="flex flex-col gap-2">
-                    <h1 class="text-3xl text-slate-200">8 912 055-16-91</h1>
+                    <h1 class="text-3xl text-slate-200">8 912 056-78-90</h1>
                     <div class="flex flex-col">
                         <p class="text-xl text-gray-500">с 9:00 до 22:00</p>
                         <div class="mt-4 flex gap-8">
-                            <a class="flex items-center justify-center transition hover:-translate-y-1" href="https://t.me/bruhmomento77"
+                            <a class="flex items-center justify-center transition hover:-translate-y-1" href="https://web.telegram.org/"
                                 ><img class="cursor-pointer" src="/assets/icons/telegram.svg" alt="telegram"
                             /></a>
-                            <a class="flex items-center justify-center transition hover:-translate-y-1" href="https://vk.com/bruhmoment44"
+                            <a class="flex items-center justify-center transition hover:-translate-y-1" href="https://vk.com"
                                 ><img src="/assets/icons/vk.svg" alt="vk"
                             /></a>
                         </div>
